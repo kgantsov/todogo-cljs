@@ -1,0 +1,58 @@
+(ns todogo-cljs.routes
+  (:require-macros [secretary.core :refer [defroute]])
+  (:import goog.history.Html5History)
+  (:require [secretary.core :as secretary]
+            [goog.events :as events]
+            [goog.history.EventType :as EventType]
+            [re-frame.core :as re-frame]
+            [todogo-cljs.db :refer [get-todo-lists
+                                    get-todo-list
+                                    get-todos
+                                    get-todo]]))
+
+(defonce history (Html5History.))
+
+
+(defn hook-browser-navigation! []
+  (doto history
+    (events/listen
+     EventType/NAVIGATE
+     (fn [event]
+       (secretary/dispatch! (.-token event))))
+    (.setEnabled true)))
+
+
+(defn nav! [token]
+  (.setToken history token))
+
+
+(defn app-routes []
+  (secretary/set-config! :prefix "#")
+  ;; --------------------
+  ;; define routes here
+  (defroute "/" []
+            (do (get-todo-lists)
+                (re-frame/dispatch [:set-active-panel :todo-lists-panel])))
+
+  (defroute "/lists/:id" [id]
+            (do (get-todo-lists)
+                (get-todo-list id)
+                (get-todos id)
+                (re-frame/dispatch [:set-active-panel :todo-list-panel])
+                (re-frame/dispatch [:set-todo-list-id id])))
+
+  (defroute "/lists/:list-id/todos/:id" [list-id id]
+            (do (get-todo-lists)
+                (get-todos list-id)
+                (get-todo-list list-id)
+                (get-todo list-id id)
+                (re-frame/dispatch [:set-active-panel :todo-panel])
+                (re-frame/dispatch [:set-todo-list-id list-id])
+                (re-frame/dispatch [:set-todo-id id])))
+
+  (defroute "/about" []
+    (re-frame/dispatch [:set-active-panel :about-panel]))
+
+
+  ;; --------------------
+  (hook-browser-navigation!))
