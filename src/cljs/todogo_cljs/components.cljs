@@ -100,7 +100,7 @@
      [:li {:class "list-group-item"}
       [:input {:type "checkbox"
                :checked (:completed todo)
-               :on-change (fn [x]   (toggle-todo (-> x .-target .-value) todo))}]
+               :on-change (fn [x]   (toggle-todo todo))}]
       [:a {:href (str "#/lists/" (:todo_list_id todo) "/todos/" (:id todo))} (:title todo)]
       [:span {:class "button fa fa-lg fa-trash pull-right"
               :on-click (fn [] (do (nav! (str "/lists/" (:todo_list_id todo)))

@@ -47,7 +47,7 @@
                                             (get-todos list-id)))
          :error-handler (fn [r] (prn r))}))
 
-(defn toggle-todo [completed todo]
+(defn toggle-todo [todo]
   (PUT (str "http://localhost:8080/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
         {:format        :json
          :params        {:title (:title todo)
