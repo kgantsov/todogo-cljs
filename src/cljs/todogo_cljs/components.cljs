@@ -9,6 +9,7 @@
                                     update-todo]]
             [todogo-cljs.routes :refer [nav!]]))
 
+
 (def nav-bar
   [:nav {:class "navbar navbar-inverse navbar-fixed-top"}
    [:div {:class "container"}
@@ -19,13 +20,11 @@
       [:li
        [:a {:href "#/about"} "About"]]]]]])
 
+
 (def footer
   [:footer {:class "footer"}
    [:div {:class "container"}
     [:p {:class "text-muted"} "© 2016 Company, Inc."]]])
-
-
-;; home
 
 
 (defn todo-input [{:keys [title placeholder on-change]}]
@@ -38,12 +37,14 @@
 (def todo-edit (with-meta todo-input
                           {:component-did-mount #(.focus (dom-node %))}))
 
+
 (defn create-todo-list-form [title]
   [:div {:class "form-group"}
    [:form {:on-submit (fn [] (create-todo-list {:title title :completed false :note ""}))}
     [todo-edit {:title title
                 :placeholder (str "Create a todo list...")
                 :on-change #(re-frame/dispatch [:set-todo-list-title (-> % .-target .-value)])}]]])
+
 
 (defn create-todo-form [todo-list title]
   [:div {:class "form-group"}
@@ -91,6 +92,7 @@
               :on-click (fn [] (do (nav! (str "/"))
                                    (delete-todo-list (:id list))))}]])])
 
+
 (defn todos [todos]
   [:ul {:class "list-group"}
    (for [todo todos]
@@ -103,16 +105,3 @@
       [:span {:class "button fa fa-lg fa-trash pull-right"
               :on-click (fn [] (do (nav! (str "/lists/" (:todo_list_id todo)))
                                    (delete-todo (:todo_list_id todo) (:id todo))))}]])])
-
-
-(defn todo-lists-panel []
-  (let [lists (re-frame/subscribe [:todo-lists])
-        todo-list-title (re-frame/subscribe [:todo-list-title])]
-    (fn []
-      [:div {:class "base-container"}
-       nav-bar
-       [:div {:class "container"}
-        [:div {:class "col-lg-4 col-md-4"}
-         (create-todo-list-form @todo-list-title)
-         (todo-lists @lists)]]
-       footer])))

@@ -10,7 +10,6 @@
                                     delete-todo]]
             [todogo-cljs.components :as c]))
 
-;; home
 
 (defn todo-lists-panel []
   (let [lists (re-frame/subscribe [:todo-lists])
@@ -23,8 +22,6 @@
          (c/create-todo-list-form @todo-list-title)
          (c/todo-lists @lists)]]
        c/footer])))
-
-;; home
 
 (defn todo-list-panel []
   (let [lists (re-frame/subscribe [:todo-lists])
@@ -69,8 +66,6 @@
        c/footer])))
 
 
-;; about
-
 (defn about-panel []
   (fn []
     [:div {:class "base-container"}
@@ -81,8 +76,6 @@
      c/footer]))
 
 
-;; main
-
 (defn- panels [panel-name]
   ;(println ">>>>>>" panel-name (juxt namespace panel-name))
   (case panel-name
@@ -92,8 +85,10 @@
     :about-panel [about-panel]
     [:div]))
 
+
 (defn show-panel [panel-name]
   [panels panel-name])
+
 
 (defn main-panel []
   (let [active-panel (re-frame/subscribe [:active-panel])]

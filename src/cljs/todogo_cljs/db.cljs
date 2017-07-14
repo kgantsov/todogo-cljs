@@ -1,7 +1,6 @@
 (ns todogo-cljs.db
   (:require [clojure.walk :refer (keywordize-keys)]
             [ajax.core :refer [GET POST PUT DELETE]]
-            [secretary.core :as secretary]
             [re-frame.core :refer [dispatch]]))
 
 (def default-db
@@ -36,7 +35,7 @@
   (POST (str "http://localhost:8080/api/v1/list/")
         {:format        :json
          :params        data
-         :handler       (fn [resp-data] (do (dispatch [:set-todo-list-title ""])
+         :handler       (fn [] (do (dispatch [:set-todo-list-title ""])
                                             (get-todo-lists)))
          :error-handler (fn [r] (prn r))}))
 
@@ -44,7 +43,7 @@
   (POST (str "http://localhost:8080/api/v1/list/" list-id "/todo/")
         {:format        :json
          :params        data
-         :handler       (fn [resp-data] (do (dispatch [:set-todo-title ""])
+         :handler       (fn [] (do (dispatch [:set-todo-title ""])
                                             (get-todos list-id)))
          :error-handler (fn [r] (prn r))}))
 
@@ -54,20 +53,20 @@
          :params        {:title (:title todo)
                          :completed (if (= (:completed todo) true) false true)
                          :note (:note todo)}
-         :handler       (fn [resp-data] (get-todos (:todo_list_id todo)))
+         :handler       (fn [] (get-todos (:todo_list_id todo)))
          :error-handler (fn [r] (prn r))}))
 
 (defn update-todo [todo]
   (PUT (str "http://localhost:8080/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
         {:format        :json
          :params        todo
-         :handler       (fn [resp-data] (get-todos (:todo_list_id todo)))
+         :handler       (fn [] (get-todos (:todo_list_id todo)))
          :error-handler (fn [r] (prn r))}))
 
 (defn delete-todo-list [todo-list-id]
   (DELETE (str "http://localhost:8080/api/v1/list/" todo-list-id "/")
-          {:handler (fn [resp-data] (get-todo-lists))}))
+          {:handler (fn [] (get-todo-lists))}))
 
 (defn delete-todo [todo-list-id todo-id]
   (DELETE (str "http://localhost:8080/api/v1/list/" todo-list-id "/todo/" todo-id "/")
-          {:handler (fn [resp-data] (get-todos todo-list-id))}))
+          {:handler (fn [] (get-todos todo-list-id))}))
