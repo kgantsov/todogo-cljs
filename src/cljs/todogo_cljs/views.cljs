@@ -44,8 +44,7 @@
 
 
 (defn todo-panel []
-  (let [id (re-frame/subscribe [:todo-id])
-        todo (re-frame/subscribe [:todo])
+  (let [todo (re-frame/subscribe [:todo])
         todo-list (re-frame/subscribe [:todo-list])
         lists (re-frame/subscribe [:todo-lists])
         todos (re-frame/subscribe [:todos])
