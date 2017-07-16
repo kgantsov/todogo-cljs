@@ -5,6 +5,7 @@
 
 (def default-db
   {:name            "re-frame"
+   :main-menu-visible false
    :todo-lists      []
    :todos           []
    :todo-list-id    nil

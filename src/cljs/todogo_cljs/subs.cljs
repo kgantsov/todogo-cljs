@@ -52,3 +52,8 @@
   :todo-list-title
   (fn [db _]
    (:todo-list-title db)))
+
+(re-frame/reg-sub
+  :main-menu-visible
+  (fn [db _]
+   (:main-menu-visible db)))

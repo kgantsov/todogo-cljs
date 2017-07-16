@@ -13,6 +13,11 @@
    (assoc db :active-panel active-panel)))
 
 (re-frame/reg-event-db
+ :set-main-menu-visible
+ (fn [db [_ main-menu-visible]]
+   (assoc db :main-menu-visible main-menu-visible)))
+
+(re-frame/reg-event-db
   :set-todo-lists
  (fn [db [_ todo-lists]]
    (assoc db :todo-lists todo-lists)))

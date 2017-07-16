@@ -12,11 +12,12 @@
 
 
 (defn todo-lists-panel []
-  (let [lists (re-frame/subscribe [:todo-lists])
+  (let [main-menu-visible (re-frame/subscribe [:main-menu-visible])
+        lists (re-frame/subscribe [:todo-lists])
         todo-list-title (re-frame/subscribe [:todo-list-title])]
     (fn []
       [:div {:class "base-container"}
-       c/nav-bar
+       (c/nav-bar @main-menu-visible)
        [:div {:class "container"}
         [:div {:class "col-lg-4 col-md-4"}
          (c/create-todo-list-form @todo-list-title)
@@ -24,14 +25,15 @@
        c/footer])))
 
 (defn todo-list-panel []
-  (let [lists (re-frame/subscribe [:todo-lists])
+  (let [main-menu-visible (re-frame/subscribe [:main-menu-visible])
+        lists (re-frame/subscribe [:todo-lists])
         todo-list (re-frame/subscribe [:todo-list])
         todos (re-frame/subscribe [:todos])
         todo-text (re-frame/subscribe [:todo-title])
         todo-list-title (re-frame/subscribe [:todo-list-title])]
     (fn []
       [:div {:class "base-container"}
-       c/nav-bar
+       (c/nav-bar @main-menu-visible)
        [:div {:class "container"}
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
          (c/create-todo-list-form @todo-list-title)
@@ -44,7 +46,8 @@
 
 
 (defn todo-panel []
-  (let [todo (re-frame/subscribe [:todo])
+  (let [main-menu-visible (re-frame/subscribe [:main-menu-visible])
+        todo (re-frame/subscribe [:todo])
         todo-list (re-frame/subscribe [:todo-list])
         lists (re-frame/subscribe [:todo-lists])
         todos (re-frame/subscribe [:todos])
@@ -52,7 +55,7 @@
         todo-list-title (re-frame/subscribe [:todo-list-title])]
     (fn []
       [:div {:class "base-container"}
-       c/nav-bar
+       (c/nav-bar @main-menu-visible)
        [:div {:class "container"}
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
          (c/create-todo-list-form @todo-list-title)
@@ -66,9 +69,9 @@
 
 
 (defn about-panel []
-  (fn []
+  (let [main-menu-visible (re-frame/subscribe [:main-menu-visible])]
     [:div {:class "base-container"}
-     c/nav-bar
+     (c/nav-bar @main-menu-visible)
      [:div {:class "container"}
       [:h2 "About page"]
       [:div [:a {:href "#/"} "go to the home page"]]]

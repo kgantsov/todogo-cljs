@@ -10,15 +10,23 @@
             [todogo-cljs.routes :refer [nav!]]))
 
 
-(def nav-bar
-  [:nav {:class "navbar navbar-inverse navbar-fixed-top"}
-   [:div {:class "container"}
-    [:div {:class "navbar-header"}
-     [:a {:href "#/" :class "navbar-brand"} "TODOGO"]]
-    [:div {:id "navbar" :class "collapse navbar-collapse"}
-     [:ul {:class "nav navbar-nav"}
-      [:li
-       [:a {:href "#/about"} "About"]]]]]])
+(defn nav-bar [main-menu-visible]
+  (let [menu-class (if (= main-menu-visible true) "collapse navbar-collapse in" "collapse navbar-collapse")]
+    [:nav {:class "navbar navbar-inverse navbar-fixed-top"}
+     [:div {:class "container"}
+      [:div {:class "navbar-header"}
+       [:a {:href "#/" :class "navbar-brand"} "TODOGO"]
+       [:button {:class "navbar-toggle"
+                 :type "button"
+                 :on-click #(re-frame/dispatch [:set-main-menu-visible (if (= main-menu-visible true) false true)])}
+        [:span {:class "icon-bar"}]
+        [:span {:class "icon-bar"}]
+        [:span {:class "icon-bar"}]]]
+      [:div {:id "navbar-main"
+             :class menu-class}
+       [:ul {:class "nav navbar-nav"}
+        [:li
+         [:a {:href "#/about"} "About"]]]]]]))
 
 
 (def footer
