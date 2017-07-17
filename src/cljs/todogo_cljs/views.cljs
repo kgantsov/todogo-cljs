@@ -19,6 +19,9 @@
       [:div {:class "base-container"}
        (c/nav-bar @main-menu-visible)
        [:div {:class "container"}
+        [:div {:class "col-12 "}
+         [:ul {:class "breadcrumb"}
+          [:li [:span "Home"]]]]
         [:div {:class "col-lg-4 col-md-4"}
          (c/create-todo-list-form @todo-list-title)
          (c/todo-lists @lists)]]
@@ -35,6 +38,10 @@
       [:div {:class "base-container"}
        (c/nav-bar @main-menu-visible)
        [:div {:class "container"}
+        [:div {:class "col-12 "}
+         [:ul {:class "breadcrumb"}
+          [:li [:a {:href "#/"} "Home"]]
+          [:li [:span (:title @todo-list)]]]]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
          (c/create-todo-list-form @todo-list-title)
          (c/todo-lists @lists)]
@@ -57,6 +64,11 @@
       [:div {:class "base-container"}
        (c/nav-bar @main-menu-visible)
        [:div {:class "container"}
+        [:div {:class "col-12 "}
+         [:ul {:class "breadcrumb"}
+          [:li [:a {:href "#/"} "Home"]]
+          [:li [:a {:href (str "#/lists/" (:id @todo-list))} (:title @todo-list)]]
+          [:li [:span (:title @todo)]]]]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
          (c/create-todo-list-form @todo-list-title)
          (c/todo-lists @lists)]
