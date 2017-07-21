@@ -35,6 +35,13 @@
     [:p {:class "text-muted"} "© 2016 Company, Inc."]]])
 
 
+(defn bread-crumbs [crumbs]
+  [:ul {:class "breadcrumb"}
+   (for [crumb crumbs]
+     ^{:key crumb}
+     [:li crumb])])
+
+
 (defn todo-input [{:keys [title placeholder on-change]}]
   [:input {:class       "form-control"
            :type        "text"

@@ -20,8 +20,8 @@
        (c/nav-bar @main-menu-visible)
        [:div {:class "container"}
         [:div {:class "col-12 "}
-         [:ul {:class "breadcrumb"}
-          [:li [:span [:span {:class "fa fa-lg fa-home"}]]]]]
+         (c/bread-crumbs
+           [[:span [:span {:class "fa fa-lg fa-home"}]]])]
         [:div {:class "col-lg-4 col-md-4"}
          (c/create-todo-list-form @todo-list-title)
          (c/todo-lists @lists)]]
@@ -39,9 +39,9 @@
        (c/nav-bar @main-menu-visible)
        [:div {:class "container"}
         [:div {:class "col-12 "}
-         [:ul {:class "breadcrumb"}
-          [:li [:a {:href "#/"} [:span {:class "fa fa-lg fa-home"}]]]
-          [:li [:span (:title @todo-list)]]]]
+         (c/bread-crumbs
+           [[:a {:href "#/"} [:span {:class "fa fa-lg fa-home"}]]
+            [:span (:title @todo-list)]])]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
          (c/create-todo-list-form @todo-list-title)
          (c/todo-lists @lists)]
@@ -65,10 +65,10 @@
        (c/nav-bar @main-menu-visible)
        [:div {:class "container"}
         [:div {:class "col-12 "}
-         [:ul {:class "breadcrumb"}
-          [:li [:a {:href "#/"} [:span {:class "fa fa-lg fa-home"}]]]
-          [:li [:a {:href (str "#/lists/" (:id @todo-list))} (:title @todo-list)]]
-          [:li [:span (:title @todo)]]]]
+         (c/bread-crumbs
+           [[:a {:href "#/"} [:span {:class "fa fa-lg fa-home"}]]
+            [:a {:href (str "#/lists/" (:id @todo-list))} (:title @todo-list)]
+            [:span (:title @todo)]])]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
          (c/create-todo-list-form @todo-list-title)
          (c/todo-lists @lists)]
