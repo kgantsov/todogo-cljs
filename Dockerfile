@@ -1,4 +1,4 @@
-FROM clojure:onbuild
+FROM clojure:alpine-onbuild
 
 RUN mkdir -p /todogo/
 ADD . /todogo/
