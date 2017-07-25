@@ -1,6 +1,33 @@
 version: '2'
 
 services:
+  api:
+    container_name: api
+    restart: always
+    build: ./docker/api
+    env_file: .environment
+    volumes:
+      - docker/api/:/app/
+    expose:
+      - "8080/tcp"
+    ports:
+      - "8080:8080"
+    links:
+      - postgres:postgres
+    depends_on:
+      - postgres
+    command: /app/todogo
+
+  postgres:
+    container_name: postgres
+    restart: always
+    build: ./docker/postgres
+    volumes:
+      - postgresdatavolume:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432/tcp"
 
   web:
     container_name: web
@@ -13,4 +40,22 @@ services:
       - "3449/tcp"
     ports:
       - "3449:3449"
+    links:
+      - api:api
+    depends_on:
+      - api
     command: lein figwheel dev
+
+  nginx:
+    restart: always
+    build: ./docker/nginx
+    ports:
+      - "80:80"
+    links:
+      - api:api
+      - web:web
+
+volumes:
+  postgresdatavolume:
+    driver: local
+
