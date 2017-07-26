@@ -7,7 +7,7 @@ services:
     build: ./docker/api
     env_file: .environment
     volumes:
-      - docker/api/:/app/
+      - ./docker/api/:/app/
     expose:
       - "8080/tcp"
     ports:
