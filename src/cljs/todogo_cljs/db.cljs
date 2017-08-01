@@ -16,58 +16,88 @@
    :todo            nil})
 
 
+(defn api-call [method url data handler]
+  (method
+    (str "http://localhost:8080" url)
+    {:format :json
+     :params data
+     :headers {:Auth-Token (.getItem (.-localStorage js/window) "token")}
+     :handler handler
+     :error-handler (fn [r] (cond
+                              (< (:status r) 400) (handler r)
+                              ;(= (:status r) 403) (set! (.-location js/window) "/login")
+                              (= (:status r) 403) (print "Access denied")
+                              (> (:status r) 500) (print (:error r))))}))
+
+
 (defn get-todo-lists []
-  (GET "/api/v1/list/"
-       {:handler (fn [data] (dispatch [:set-todo-lists (keywordize-keys data)]))}))
+  (api-call
+    GET
+    "/api/v1/list/"
+    {}
+    (fn [data] (dispatch [:set-todo-lists (keywordize-keys data)]))))
 
 (defn get-todo-list [list-id]
-  (GET (str "/api/v1/list/" list-id "/")
-       {:handler (fn [data] (dispatch [:set-todo-list (keywordize-keys data)]))}))
+  (api-call
+    GET
+    (str "/api/v1/list/" list-id "/")
+    {}
+    (fn [data] (dispatch [:set-todo-list (keywordize-keys data)]))))
 
 (defn get-todos [id]
-  (GET (str "/api/v1/list/" id "/todo/")
-       {:handler (fn [data] (dispatch [:set-todos (keywordize-keys data)]))}))
+  (api-call
+    GET
+    (str "/api/v1/list/" id "/todo/")
+    {}
+    (fn [data] (dispatch [:set-todos (keywordize-keys data)]))))
 
 (defn get-todo [list-id id]
-  (GET (str "/api/v1/list/" list-id "/todo/" id "/")
-       {:handler (fn [data] (dispatch [:set-todo (keywordize-keys data)]))}))
+  (api-call
+    GET
+    (str "/api/v1/list/" list-id "/todo/" id "/")
+    {}
+    (fn [data] (dispatch [:set-todo (keywordize-keys data)]))))
 
-(defn create-todo-list [ data]
-  (POST (str "/api/v1/list/")
-        {:format        :json
-         :params        data
-         :handler       (fn [] (do (dispatch [:set-todo-list-title ""])
-                                            (get-todo-lists)))
-         :error-handler (fn [r] (prn r))}))
+(defn create-todo-list [data]
+  (api-call
+    POST
+    (str "/api/v1/list/")
+    data
+    (fn [] (do (dispatch [:set-todo-list-title ""]) (get-todo-lists)))))
 
 (defn create-todo [list-id data]
-  (POST (str "/api/v1/list/" list-id "/todo/")
-        {:format        :json
-         :params        data
-         :handler       (fn [] (do (dispatch [:set-todo-title ""])
-                                            (get-todos list-id)))
-         :error-handler (fn [r] (prn r))}))
+  (api-call
+    POST
+    (str "/api/v1/list/" list-id "/todo/")
+    data
+    (fn [] (do (dispatch [:set-todo-title ""]) (get-todos list-id)))))
 
 (defn toggle-todo [todo]
-  (PUT (str "/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
-        {:format        :json
-         :params        {:title (:title todo)
-                         :completed (if (= (:completed todo) true) false true)
-                         :note (:note todo)}
-         :handler       (fn [] (get-todos (:todo_list_id todo)))
-         :error-handler (fn [r] (prn r))}))
+  (api-call
+    PUT
+    (str "/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
+    {:title (:title todo)
+     :completed (if (= (:completed todo) true) false true)
+     :note (:note todo)}
+    (fn [] (get-todos (:todo_list_id todo)))))
 
 (defn update-todo [todo]
-  (PUT (str "/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
-        {:format        :json
-         :params        todo
-         :handler       (fn [] (get-todos (:todo_list_id todo)))
-         :error-handler (fn [r] (prn r))}))
+  (api-call
+    PUT
+    (str "/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
+    todo
+    (fn [] (get-todos (:todo_list_id todo)))))
 
 (defn delete-todo-list [todo-list-id]
-  (DELETE (str "/api/v1/list/" todo-list-id "/")
-          {:handler (fn [] (get-todo-lists))}))
+  (api-call
+    DELETE
+    (str "/api/v1/list/" todo-list-id "/")
+    {}
+    (fn [] (get-todo-lists))))
 
 (defn delete-todo [todo-list-id todo-id]
-  (DELETE (str "/api/v1/list/" todo-list-id "/todo/" todo-id "/")
-          {:handler (fn [] (get-todos todo-list-id))}))
+  (api-call
+    DELETE
+    (str "/api/v1/list/" todo-list-id "/todo/" todo-id "/")
+    {}
+    (fn [] (get-todos todo-list-id))))
