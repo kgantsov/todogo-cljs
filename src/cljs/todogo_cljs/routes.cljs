@@ -8,22 +8,8 @@
             [todogo-cljs.db :refer [get-todo-lists
                                     get-todo-list
                                     get-todos
-                                    get-todo]]))
-
-(defonce history (Html5History.))
-
-
-(defn hook-browser-navigation! []
-  (doto history
-    (events/listen
-     EventType/NAVIGATE
-     (fn [event]
-       (secretary/dispatch! (.-token event))))
-    (.setEnabled true)))
-
-
-(defn nav! [token]
-  (.setToken history token))
+                                    get-todo]]
+            [todogo-cljs.navigation :refer [hook-browser-navigation!]]))
 
 
 (defn app-routes []

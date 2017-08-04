@@ -7,7 +7,7 @@
                                     delete-todo-list
                                     delete-todo
                                     update-todo]]
-            [todogo-cljs.routes :refer [nav!]]))
+            [todogo-cljs.navigation :refer [nav!]]))
 
 
 (defn nav-bar [main-menu-visible]

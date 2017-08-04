@@ -1,7 +1,8 @@
 (ns todogo-cljs.db
   (:require [clojure.walk :refer (keywordize-keys)]
             [ajax.core :refer [GET POST PUT DELETE]]
-            [re-frame.core :refer [dispatch]]))
+            [re-frame.core :refer [dispatch]]
+            [todogo-cljs.navigation :refer [nav!]]))
 
 (def default-db
   {:name            "re-frame"
@@ -25,8 +26,7 @@
      :handler handler
      :error-handler (fn [r] (cond
                               (< (:status r) 400) (handler r)
-                              ;(= (:status r) 403) (set! (.-location js/window) "/login")
-                              (= (:status r) 403) (print "Access denied")
+                              (= (:status r) 403) (nav! (str "/login"))
                               (> (:status r) 500) (print (:error r))))}))
 
 
