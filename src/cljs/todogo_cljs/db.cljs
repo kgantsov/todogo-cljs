@@ -1,5 +1,6 @@
 (ns todogo-cljs.db
   (:require [clojure.walk :refer (keywordize-keys)]
+            [re-frame.core :as re-frame]
             [ajax.core :refer [GET POST PUT DELETE]]
             [re-frame.core :refer [dispatch]]
             [todogo-cljs.navigation :refer [nav!]]))
@@ -14,7 +15,8 @@
    :todo-title      ""
    :todo-list-title ""
    :todo-id         nil
-   :todo            nil})
+   :todo            nil
+   :user-login      nil})
 
 
 (defn api-call [method url data handler]
@@ -26,7 +28,7 @@
      :handler handler
      :error-handler (fn [r] (cond
                               (< (:status r) 400) (handler r)
-                              (= (:status r) 403) (nav! (str "/login"))
+                              (= (:status r) 403) (nav! (str "/sign-in"))
                               (> (:status r) 500) (print (:error r))))}))
 
 
@@ -87,6 +89,15 @@
     (str "/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
     todo
     (fn [] (get-todos (:todo_list_id todo)))))
+
+(defn sign-in [data]
+  (api-call
+    POST
+    (str "/api/v1/auth/login/")
+    data
+    (fn [resp-data] (do (.setItem (.-localStorage js/window) "token", (:token (keywordize-keys resp-data)))
+                        (re-frame/dispatch [:set-user-login nil])
+                        (nav! (str "/"))))))
 
 (defn delete-todo-list [todo-list-id]
   (api-call

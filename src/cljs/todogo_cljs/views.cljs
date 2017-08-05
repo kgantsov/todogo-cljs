@@ -7,7 +7,9 @@
                                     get-todos
                                     toggle-todo
                                     delete-todo-list
-                                    delete-todo]]
+                                    delete-todo
+                                    sign-in]]
+            [todogo-cljs.navigation :refer [nav!]]
             [todogo-cljs.components :as c]))
 
 
@@ -85,14 +87,41 @@
     [:div {:class "base-container"}
      (c/nav-bar @main-menu-visible)
      [:div {:class "container"}
-      [:h2 "About page"]
+      [:h2 "Sign in page"]
       [:div [:a {:href "#/"} "go to the home page"]]]
+     c/footer]))
+
+(defn sign-in-panel []
+  (let [main-menu-visible (re-frame/subscribe [:main-menu-visible])
+        user-login (re-frame/subscribe [:user-login])]
+    [:div {:class "base-container"}
+     (c/nav-bar @main-menu-visible)
+     [:div {:class "container"}
+      [:form {:class "form-signin"
+              :on-submit (fn [] (sign-in @user-login))}
+       [:h2 "Please sign in"]
+       [:div {:class "form-group"}
+        [:input {:class       "form-control"
+                 :type        "text"
+                 :placeholder "Email address"
+                 :value (:email @user-login)
+                 :on-change   #(re-frame/dispatch [:set-user-login (assoc @user-login :email (-> % .-target .-value))])}]
+        [:input {:class       "form-control"
+                 :type        "password"
+                 :placeholder "Password"
+                 :value (:password @user-login)
+                 :on-change   #(re-frame/dispatch [:set-user-login (assoc @user-login :password (-> % .-target .-value))])}]]
+       [:a {:class "button btn btn-success"
+            :type :submit
+            :on-click (fn [] (sign-in @user-login))}
+        "Sign in"]]]
      c/footer]))
 
 
 (defn- panels [panel-name]
   ;(println ">>>>>>" panel-name (juxt namespace panel-name))
   (case panel-name
+    :sign-in-panel [sign-in-panel]
     :todo-lists-panel [todo-lists-panel]
     :todo-list-panel [todo-list-panel]
     :todo-panel [todo-panel]

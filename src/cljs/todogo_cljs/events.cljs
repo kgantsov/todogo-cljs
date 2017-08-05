@@ -48,6 +48,11 @@
    (assoc db :todo todo)))
 
 (re-frame/reg-event-db
+ :set-user-login
+ (fn [db [_ user-login]]
+   (assoc db :user-login user-login)))
+
+(re-frame/reg-event-db
   :set-todo-title
   (fn [db [_ todo-title]]
    (assoc db :todo-title todo-title)))

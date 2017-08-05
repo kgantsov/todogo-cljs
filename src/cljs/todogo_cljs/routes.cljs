@@ -36,6 +36,9 @@
                 (re-frame/dispatch [:set-todo-list-id list-id])
                 (re-frame/dispatch [:set-todo-id id])))
 
+  (defroute "/sign-in" []
+    (re-frame/dispatch [:set-active-panel :sign-in-panel]))
+
   (defroute "/about" []
     (re-frame/dispatch [:set-active-panel :about-panel]))
 
