@@ -99,6 +99,14 @@
                         (re-frame/dispatch [:set-user-login nil])
                         (nav! (str "/"))))))
 
+(defn sign-up [data]
+  (api-call
+    POST
+    (str "/api/v1/user/")
+    data
+    (fn [] (do (re-frame/dispatch [:set-user-login nil])
+                        (nav! (str "/sign-in"))))))
+
 (defn delete-todo-list [todo-list-id]
   (api-call
     DELETE
