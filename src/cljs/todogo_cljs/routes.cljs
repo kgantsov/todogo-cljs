@@ -2,8 +2,6 @@
   (:require-macros [secretary.core :refer [defroute]])
   (:import goog.history.Html5History)
   (:require [secretary.core :as secretary]
-            [goog.events :as events]
-            [goog.history.EventType :as EventType]
             [re-frame.core :as re-frame]
             [todogo-cljs.db :refer [get-todo-lists
                                     get-todo-list
