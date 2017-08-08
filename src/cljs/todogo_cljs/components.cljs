@@ -26,7 +26,14 @@
              :class menu-class}
        [:ul {:class "nav navbar-nav"}
         [:li
-         [:a {:href "#/about"} "About"]]]]]]))
+         [:a {:href "#/about"} "About"]]]
+       [:ul {:class "nav navbar-nav navbar-right"}
+        [:li
+         (if (.getItem (.-localStorage js/window) "token")
+           [:a {:on-click (fn [] (do (.removeItem (.-localStorage js/window) "token")
+                                     (nav! "/sign-in")))}
+            "Sign out"]
+           )]]]]]))
 
 
 (def footer
