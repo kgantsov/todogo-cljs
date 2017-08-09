@@ -114,6 +114,11 @@
                  :value (:password @user-login)
                  :on-change   #(re-frame/dispatch
                                 [:set-user-login (assoc @user-login :password (-> % .-target .-value))])}]]
+       [:div
+        [:p
+         [:span "Or go to "]
+         [:a {:href "#/sign-up"} "Sign up"]
+         [:span " page"]]]
        [:a {:class "button btn btn-success"
             :type :submit
             :on-click (fn [] (sign-in @user-login))}
@@ -148,6 +153,11 @@
                  :value (:confirm-password @user-login)
                  :on-change   #(re-frame/dispatch
                                 [:set-user-login (assoc @user-login :confirm-password (-> % .-target .-value))])}]]
+       [:div
+        [:p
+         [:span "Or go to "]
+         [:a {:href "#/sign-in"} "Sign in"]
+         [:span " page"]]]
        [:a {:class "button btn btn-success"
             :type :submit
             :on-click (fn [] (sign-up @user-login))}
