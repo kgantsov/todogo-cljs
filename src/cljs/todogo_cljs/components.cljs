@@ -6,7 +6,9 @@
                                     toggle-todo
                                     delete-todo-list
                                     delete-todo
-                                    update-todo]]
+                                    update-todo
+                                    sign-in
+                                    sign-up]]
             [todogo-cljs.navigation :refer [nav!]]))
 
 
@@ -100,6 +102,67 @@
           :on-click (fn [] (do (nav! (str "/lists/" (:todo_list_id todo)))
                                (delete-todo (:todo_list_id todo) (:id todo))))}
       [:span {:class "fa fa-lg fa-trash"}]]]])
+
+
+(defn sign-in-form [user]
+  [:form {:class "form-signin"
+          :on-submit (fn [] (sign-in user))}
+   [:h2 "Please sign in"]
+   [:div {:class "form-group"}
+    [:input {:class       "form-control"
+             :type        "text"
+             :placeholder "Email address"
+             :value (:email user)
+             :on-change   #(re-frame/dispatch
+                            [:set-user-login (assoc user :email (-> % .-target .-value))])}]
+    [:input {:class       "form-control"
+             :type        "password"
+             :placeholder "Password"
+             :value (:password user)
+             :on-change   #(re-frame/dispatch
+                            [:set-user-login (assoc user :password (-> % .-target .-value))])}]]
+   [:div
+    [:p
+     [:span "Or go to "]
+     [:a {:href "#/sign-up"} "Sign up"]
+     [:span " page"]]]
+   [:a {:class "button btn btn-success"
+        :type :submit
+        :on-click (fn [] (sign-in user))}
+    "Sign in"]])
+
+(defn sign-up-form [user]
+  [:form {:class "form-signin"
+          :on-submit (fn [] (sign-up user))}
+   [:h2 "Please sign in"]
+   [:div {:class "form-group"}
+    [:input {:class       "form-control"
+             :type        "text"
+             :placeholder "Email address"
+             :value (:email user)
+             :on-change   #(re-frame/dispatch
+                            [:set-user-login (assoc user :email (-> % .-target .-value))])}]
+    [:input {:class       "form-control"
+             :type        "password"
+             :placeholder "Password"
+             :value (:password user)
+             :on-change   #(re-frame/dispatch
+                            [:set-user-login (assoc user :password (-> % .-target .-value))])}]
+    [:input {:class       "form-control"
+             :type        "password"
+             :placeholder "Confirm password"
+             :value (:confirm-password user)
+             :on-change   #(re-frame/dispatch
+                            [:set-user-login (assoc user :confirm-password (-> % .-target .-value))])}]]
+   [:div
+    [:p
+     [:span "Or go to "]
+     [:a {:href "#/sign-in"} "Sign in"]
+     [:span " page"]]]
+   [:a {:class "button btn btn-success"
+        :type :submit
+        :on-click (fn [] (sign-up user))}
+    "Sign up"]])
 
 
 (defn todo-lists [lists]

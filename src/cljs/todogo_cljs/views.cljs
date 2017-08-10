@@ -7,9 +7,7 @@
                                     get-todos
                                     toggle-todo
                                     delete-todo-list
-                                    delete-todo
-                                    sign-in
-                                    sign-up]]
+                                    delete-todo]]
             [todogo-cljs.navigation :refer [nav!]]
             [todogo-cljs.components :as c]))
 
@@ -98,31 +96,7 @@
     [:div {:class "base-container"}
      (c/nav-bar @main-menu-visible)
      [:div {:class "container"}
-      [:form {:class "form-signin"
-              :on-submit (fn [] (sign-in @user-login))}
-       [:h2 "Please sign in"]
-       [:div {:class "form-group"}
-        [:input {:class       "form-control"
-                 :type        "text"
-                 :placeholder "Email address"
-                 :value (:email @user-login)
-                 :on-change   #(re-frame/dispatch
-                                [:set-user-login (assoc @user-login :email (-> % .-target .-value))])}]
-        [:input {:class       "form-control"
-                 :type        "password"
-                 :placeholder "Password"
-                 :value (:password @user-login)
-                 :on-change   #(re-frame/dispatch
-                                [:set-user-login (assoc @user-login :password (-> % .-target .-value))])}]]
-       [:div
-        [:p
-         [:span "Or go to "]
-         [:a {:href "#/sign-up"} "Sign up"]
-         [:span " page"]]]
-       [:a {:class "button btn btn-success"
-            :type :submit
-            :on-click (fn [] (sign-in @user-login))}
-        "Sign in"]]]
+      (c/sign-in-form @user-login)]
      c/footer]))
 
 (defn sign-up-panel []
@@ -131,37 +105,7 @@
     [:div {:class "base-container"}
      (c/nav-bar @main-menu-visible)
      [:div {:class "container"}
-      [:form {:class "form-signin"
-              :on-submit (fn [] (sign-up @user-login))}
-       [:h2 "Please sign in"]
-       [:div {:class "form-group"}
-        [:input {:class       "form-control"
-                 :type        "text"
-                 :placeholder "Email address"
-                 :value (:email @user-login)
-                 :on-change   #(re-frame/dispatch
-                                [:set-user-login (assoc @user-login :email (-> % .-target .-value))])}]
-        [:input {:class       "form-control"
-                 :type        "password"
-                 :placeholder "Password"
-                 :value (:password @user-login)
-                 :on-change   #(re-frame/dispatch
-                                [:set-user-login (assoc @user-login :password (-> % .-target .-value))])}]
-        [:input {:class       "form-control"
-                 :type        "password"
-                 :placeholder "Confirm password"
-                 :value (:confirm-password @user-login)
-                 :on-change   #(re-frame/dispatch
-                                [:set-user-login (assoc @user-login :confirm-password (-> % .-target .-value))])}]]
-       [:div
-        [:p
-         [:span "Or go to "]
-         [:a {:href "#/sign-in"} "Sign in"]
-         [:span " page"]]]
-       [:a {:class "button btn btn-success"
-            :type :submit
-            :on-click (fn [] (sign-up @user-login))}
-        "Sign up"]]]
+      (c/sign-up-form @user-login)]
      c/footer]))
 
 
