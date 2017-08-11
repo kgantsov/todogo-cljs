@@ -93,10 +93,10 @@
                  :on-blur     (fn [] (update-todo todo))
                  :on-change   #(re-frame/dispatch [:set-todo (assoc todo :note (-> % .-target .-value))])}]]
     [:div {:class "form-group"}
-     [:a {:class "btn btn-success"
-          :type :submit
-          :on-click (fn [] (update-todo todo))}
-      "Save"]
+     [:input {:class "btn btn-success"
+              :type :submit
+              :on-click (fn [] (update-todo todo))
+              :value "Save"}]
      [:a {:class "button btn btn-danger pull-right"
           :type :submit
           :on-click (fn [] (do (nav! (str "/lists/" (:todo_list_id todo)))
@@ -126,10 +126,10 @@
      [:span "Or go to "]
      [:a {:href "#/sign-up"} "Sign up"]
      [:span " page"]]]
-   [:a {:class "button btn btn-success"
-        :type :submit
-        :on-click (fn [] (sign-in user))}
-    "Sign in"]])
+   [:input {:class "button btn btn-success"
+            :type :submit
+            :on-click (fn [] (sign-in user))
+            :value "Sign in"}]])
 
 (defn sign-up-form [user]
   [:form {:class "form-signin"
@@ -159,10 +159,10 @@
      [:span "Or go to "]
      [:a {:href "#/sign-in"} "Sign in"]
      [:span " page"]]]
-   [:a {:class "button btn btn-success"
-        :type :submit
-        :on-click (fn [] (sign-up user))}
-    "Sign up"]])
+   [:input {:class "button btn btn-success"
+            :type :submit
+            :on-click (fn [] (sign-up user))
+            :value "Sign up"}]])
 
 
 (defn todo-lists [lists]
