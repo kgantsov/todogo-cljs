@@ -3,7 +3,9 @@
             [re-frame.core :as re-frame]
             [ajax.core :refer [GET POST PUT DELETE]]
             [re-frame.core :refer [dispatch]]
-            [todogo-cljs.navigation :refer [nav!]]))
+            [todogo-cljs.navigation :refer [nav!]]
+            [todogo-cljs.local-storage :refer [ls-get
+                                               ls-set]]))
 
 (def default-db
   {:name            "re-frame"
@@ -24,7 +26,7 @@
     (str "http://localhost:8080" url)
     {:format :json
      :params data
-     :headers {:Auth-Token (.getItem (.-localStorage js/window) "token")}
+     :headers {:Auth-Token (ls-get "token")}
      :handler handler
      :error-handler (fn [r] (cond
                               (< (:status r) 400) (handler r)
@@ -95,7 +97,7 @@
     POST
     (str "/api/v1/auth/login/")
     data
-    (fn [resp-data] (do (.setItem (.-localStorage js/window) "token", (:token (keywordize-keys resp-data)))
+    (fn [resp-data] (do (ls-set "token" (:token (keywordize-keys resp-data)))
                         (re-frame/dispatch [:set-user-login nil])
                         (nav! (str "/"))))))
 

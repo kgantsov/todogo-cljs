@@ -9,7 +9,9 @@
                                     update-todo
                                     sign-in
                                     sign-up]]
-            [todogo-cljs.navigation :refer [nav!]]))
+            [todogo-cljs.navigation :refer [nav!]]
+            [todogo-cljs.local-storage :refer [ls-get
+                                               ls-del]]))
 
 
 (defn nav-bar [main-menu-visible]
@@ -31,8 +33,8 @@
          [:a {:href "#/about"} "About"]]]
        [:ul {:class "nav navbar-nav navbar-right"}
         [:li
-         (if (.getItem (.-localStorage js/window) "token")
-           [:a {:on-click (fn [] (do (.removeItem (.-localStorage js/window) "token")
+         (if (ls-get "token")
+           [:a {:on-click (fn [] (do (ls-del "token")
                                      (nav! "/sign-in")))}
             "Sign out"]
            )]]]]]))
