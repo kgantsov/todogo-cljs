@@ -112,7 +112,7 @@
    [:h2 "Please sign in"]
    [:div {:class "form-group"}
     [:input {:class       "form-control"
-             :type        "text"
+             :type        "email"
              :placeholder "Email address"
              :value (:email user)
              :on-change   #(re-frame/dispatch
@@ -139,7 +139,7 @@
    [:h2 "Please sign in"]
    [:div {:class "form-group"}
     [:input {:class       "form-control"
-             :type        "text"
+             :type        "email"
              :placeholder "Email address"
              :value (:email user)
              :on-change   #(re-frame/dispatch
