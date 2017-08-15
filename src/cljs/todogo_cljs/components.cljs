@@ -106,23 +106,24 @@
       [:span {:class "fa fa-lg fa-trash"}]]]])
 
 
-(defn sign-in-form [user]
+(defn sign-in-form [user form-errors]
   [:form {:class "form-signin"
           :on-submit (fn [] (sign-in user))}
    [:h2 "Please sign in"]
    [:div {:class "form-group"}
+    (if form-errors [:div {:class "alert alert-danger" :role "alert"} (:error form-errors)])
     [:input {:class       "form-control"
              :type        "email"
              :placeholder "Email address"
              :value (:email user)
-             :on-change   #(re-frame/dispatch
-                            [:set-user-login (assoc user :email (-> % .-target .-value))])}]
+             :on-change   #(do (re-frame/dispatch [:set-form-errors nil])
+                               (re-frame/dispatch [:set-user-login (assoc user :email (-> % .-target .-value))]))}]
     [:input {:class       "form-control"
              :type        "password"
              :placeholder "Password"
              :value (:password user)
-             :on-change   #(re-frame/dispatch
-                            [:set-user-login (assoc user :password (-> % .-target .-value))])}]]
+             :on-change   #(do (re-frame/dispatch [:set-form-errors nil])
+                               (re-frame/dispatch [:set-user-login (assoc user :password (-> % .-target .-value))]))}]]
    [:div
     [:p
      [:span "Or go to "]

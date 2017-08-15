@@ -53,6 +53,11 @@
    (assoc db :user-login user-login)))
 
 (re-frame/reg-event-db
+ :set-form-errors
+ (fn [db [_ form-errors]]
+   (assoc db :form-errors form-errors)))
+
+(re-frame/reg-event-db
   :set-todo-title
   (fn [db [_ todo-title]]
    (assoc db :todo-title todo-title)))

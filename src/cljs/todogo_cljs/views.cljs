@@ -92,11 +92,12 @@
 
 (defn sign-in-panel []
   (let [main-menu-visible (re-frame/subscribe [:main-menu-visible])
-        user-login (re-frame/subscribe [:user-login])]
+        user-login (re-frame/subscribe [:user-login])
+        form-errors (re-frame/subscribe [:form-errors])]
     [:div {:class "base-container"}
      (c/nav-bar @main-menu-visible)
      [:div {:class "container"}
-      (c/sign-in-form @user-login)]
+      (c/sign-in-form @user-login @form-errors)]
      c/footer]))
 
 (defn sign-up-panel []

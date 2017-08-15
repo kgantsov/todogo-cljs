@@ -29,6 +29,11 @@
    (:user-login db)))
 
 (re-frame/reg-sub
+  :form-errors
+ (fn [db]
+   (:form-errors db)))
+
+(re-frame/reg-sub
   :todo-list
  (fn [db]
    (:todo-list db)))
