@@ -134,29 +134,38 @@
             :on-click (fn [] (sign-in user))
             :value "Sign in"}]])
 
-(defn sign-up-form [user]
+
+(defn sign-up-form [user form-errors]
   [:form {:class "form-signin"
-          :on-submit (fn [] (sign-up user))}
+          :on-submit (fn [] (if (and (= (:password user) (:confirm-password user)) (not-empty (:password user)))
+                              (sign-up user)
+                              (re-frame/dispatch [:set-form-errors {:error "Please enter a password"}])))}
    [:h2 "Please sign in"]
    [:div {:class "form-group"}
+    (if form-errors [:div {:class "alert alert-danger" :role "alert"} (:error form-errors)])
     [:input {:class       "form-control"
              :type        "email"
              :placeholder "Email address"
              :value (:email user)
-             :on-change   #(re-frame/dispatch
-                            [:set-user-login (assoc user :email (-> % .-target .-value))])}]
+             :on-change   #(do (re-frame/dispatch [:set-form-errors nil])
+                               (re-frame/dispatch [:set-user-login (assoc user :email (-> % .-target .-value))]))}]
     [:input {:class       "form-control"
              :type        "password"
              :placeholder "Password"
              :value (:password user)
-             :on-change   #(re-frame/dispatch
-                            [:set-user-login (assoc user :password (-> % .-target .-value))])}]
+             :on-change   #(do (re-frame/dispatch [:set-user-login (assoc user :password (-> % .-target .-value))])
+                               (if (= (:confirm-password user) (-> % .-target .-value))
+                                 (re-frame/dispatch [:set-form-errors nil])
+                                 (re-frame/dispatch [:set-form-errors {:error "Passwords missmatch"}]))
+                               )}]
     [:input {:class       "form-control"
              :type        "password"
              :placeholder "Confirm password"
              :value (:confirm-password user)
-             :on-change   #(re-frame/dispatch
-                            [:set-user-login (assoc user :confirm-password (-> % .-target .-value))])}]]
+             :on-change   #(do (re-frame/dispatch [:set-user-login (assoc user :confirm-password (-> % .-target .-value))])
+                               (if (= (:password user) (-> % .-target .-value))
+                                 (re-frame/dispatch [:set-form-errors nil])
+                                 (re-frame/dispatch [:set-form-errors {:error "Passwords missmatch"}])))}]]
    [:div
     [:p
      [:span "Or go to "]
@@ -164,7 +173,9 @@
      [:span " page"]]]
    [:input {:class "button btn btn-success"
             :type :submit
-            :on-click (fn [] (sign-up user))
+            :on-click (fn [] (if (and (= (:password user) (:confirm-password user)) (not-empty (:password user)))
+                               (sign-up user)
+                               (re-frame/dispatch [:set-form-errors {:error "Please enter a password"}])))
             :value "Sign up"}]])
 
 
