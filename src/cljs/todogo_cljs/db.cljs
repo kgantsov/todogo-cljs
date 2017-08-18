@@ -25,7 +25,7 @@
 (defn api-call [method url handler & options]
   (let [opts (apply hash-map options)]
     (method
-      (str "http://localhost:8080" url)
+      url
       {:format :json
        :params (:data opts)
        :headers {:Auth-Token (ls-get "token")}

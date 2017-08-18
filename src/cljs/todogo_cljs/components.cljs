@@ -66,7 +66,8 @@
 
 (defn create-todo-list-form [title]
   [:div {:class "form-group"}
-   [:form {:on-submit (fn [] (create-todo-list {:title title :completed false :note ""}))}
+   [:form {:on-submit (fn [e] (do (create-todo-list {:title title :completed false :note ""})
+                                  (.preventDefault e)))}
     [todo-edit {:title title
                 :placeholder (str "Create a todo list...")
                 :on-change #(re-frame/dispatch [:set-todo-list-title (-> % .-target .-value)])}]]])
@@ -74,14 +75,16 @@
 
 (defn create-todo-form [todo-list title]
   [:div {:class "form-group"}
-   [:form {:on-submit (fn [] (create-todo (:id todo-list) {:title title :completed false :note ""}))}
+   [:form {:on-submit (fn [e] (do (create-todo (:id todo-list) {:title title :completed false :note ""})
+                                  (.preventDefault e)))}
     [todo-edit {:title title
                 :placeholder (str "Add a todo in a list '" (:title todo-list) "'")
                 :on-change #(re-frame/dispatch [:set-todo-title (-> % .-target .-value)])}]]])
 
 
 (defn edit-todo-form [todo]
-   [:form {:on-submit (fn [] (update-todo todo))}
+   [:form {:on-submit (fn [e] (do (update-todo todo)
+                                  (.preventDefault e)))}
     [:div {:class "form-group"}
      [:input {:class       "form-control"
               :type        "text"
@@ -97,18 +100,21 @@
     [:div {:class "form-group"}
      [:input {:class "btn btn-success"
               :type :submit
-              :on-click (fn [] (update-todo todo))
+              :on-click (fn [e] (do (update-todo todo)
+                                    (.preventDefault e)))
               :value "Save"}]
      [:a {:class "button btn btn-danger pull-right"
           :type :submit
-          :on-click (fn [] (do (nav! (str "/lists/" (:todo_list_id todo)))
-                               (delete-todo (:todo_list_id todo) (:id todo))))}
+          :on-click (fn [e] (do (nav! (str "/lists/" (:todo_list_id todo)))
+                                (delete-todo (:todo_list_id todo) (:id todo))
+                                (.preventDefault e)))}
       [:span {:class "fa fa-lg fa-trash"}]]]])
 
 
 (defn sign-in-form [user form-errors]
   [:form {:class "form-signin"
-          :on-submit (fn [] (sign-in user))}
+          :on-submit (fn [e] (do (sign-in user)
+                                 (.preventDefault e)))}
    [:h2 "Please sign in"]
    [:div {:class "form-group"}
     (if form-errors [:div {:class "alert alert-danger" :role "alert"} (:error form-errors)])
@@ -131,15 +137,18 @@
      [:span " page"]]]
    [:input {:class "button btn btn-success"
             :type :submit
-            :on-click (fn [] (sign-in user))
+            :on-click (fn [e] (do (sign-in user)
+                                  (.preventDefault e)))
             :value "Sign in"}]])
 
 
 (defn sign-up-form [user form-errors]
   [:form {:class "form-signin"
-          :on-submit (fn [] (if (and (= (:password user) (:confirm-password user)) (not-empty (:password user)))
-                              (sign-up user)
-                              (re-frame/dispatch [:set-form-errors {:error "Please enter a password"}])))}
+          :on-submit (fn [e] (do
+                               (if (and (= (:password user) (:confirm-password user)) (not-empty (:password user)))
+                                 (sign-up user)
+                                 (re-frame/dispatch [:set-form-errors {:error "Please enter a password"}]))
+                               (.preventDefault e)))}
    [:h2 "Please sign in"]
    [:div {:class "form-group"}
     (if form-errors [:div {:class "alert alert-danger" :role "alert"} (:error form-errors)])
@@ -173,9 +182,11 @@
      [:span " page"]]]
    [:input {:class "button btn btn-success"
             :type :submit
-            :on-click (fn [] (if (and (= (:password user) (:confirm-password user)) (not-empty (:password user)))
-                               (sign-up user)
-                               (re-frame/dispatch [:set-form-errors {:error "Please enter a password"}])))
+            :on-click (fn [e] (do
+                                (if (and (= (:password user) (:confirm-password user)) (not-empty (:password user)))
+                                  (sign-up user)
+                                  (re-frame/dispatch [:set-form-errors {:error "Please enter a password"}]))
+                                (.preventDefault e)))
             :value "Sign up"}]])
 
 
