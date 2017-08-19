@@ -53,33 +53,26 @@
      [:li crumb])])
 
 
-(defn todo-input [{:keys [title placeholder on-change]}]
-  [:input {:class       "form-control"
-           :type        "text"
-           :value       title
-           :placeholder placeholder
-           :on-change   on-change}])
-
-(def todo-edit (with-meta todo-input
-                          {:component-did-mount #(.focus (dom-node %))}))
-
-
 (defn create-todo-list-form [title]
   [:div {:class "form-group"}
    [:form {:on-submit (fn [e] (do (create-todo-list {:title title :completed false :note ""})
                                   (.preventDefault e)))}
-    [todo-edit {:title title
-                :placeholder (str "Create a todo list...")
-                :on-change #(re-frame/dispatch [:set-todo-list-title (-> % .-target .-value)])}]]])
+    [:input {:class       "form-control"
+             :type        "text"
+             :value       title
+             :placeholder (str "Create a todo list...")
+             :on-change   #(re-frame/dispatch-sync [:set-todo-list-title (-> % .-target .-value)])}]]])
 
 
 (defn create-todo-form [todo-list title]
   [:div {:class "form-group"}
    [:form {:on-submit (fn [e] (do (create-todo (:id todo-list) {:title title :completed false :note ""})
                                   (.preventDefault e)))}
-    [todo-edit {:title title
-                :placeholder (str "Add a todo in a list '" (:title todo-list) "'")
-                :on-change #(re-frame/dispatch [:set-todo-title (-> % .-target .-value)])}]]])
+    [:input {:class       "form-control"
+             :type        "text"
+             :value       title
+             :placeholder (str "Add a todo in a list '" (:title todo-list) "'")
+             :on-change   #(re-frame/dispatch-sync [:set-todo-title (-> % .-target .-value)])}]]])
 
 
 (defn edit-todo-form [todo]
@@ -90,13 +83,13 @@
               :type        "text"
               :value       (:title todo)
               :placeholder (str "New todo title")
-              :on-change   #(re-frame/dispatch [:set-todo (assoc todo :title (-> % .-target .-value))])}]]
+              :on-change   #(re-frame/dispatch-sync [:set-todo (assoc todo :title (-> % .-target .-value))])}]]
     [:div {:class "form-group"}
      [:textarea {:class       "form-control"
                  :placeholder (str "Note...")
                  :value       (:note todo)
                  :on-blur     (fn [] (update-todo todo))
-                 :on-change   #(re-frame/dispatch [:set-todo (assoc todo :note (-> % .-target .-value))])}]]
+                 :on-change   #(re-frame/dispatch-sync [:set-todo (assoc todo :note (-> % .-target .-value))])}]]
     [:div {:class "form-group"}
      [:input {:class "btn btn-success"
               :type :submit
@@ -122,14 +115,14 @@
              :type        "email"
              :placeholder "Email address"
              :value (:email user)
-             :on-change   #(do (re-frame/dispatch [:set-form-errors nil])
-                               (re-frame/dispatch [:set-user-login (assoc user :email (-> % .-target .-value))]))}]
+             :on-change   #(do (re-frame/dispatch-sync [:set-form-errors nil])
+                               (re-frame/dispatch-sync [:set-user-login (assoc user :email (-> % .-target .-value))]))}]
     [:input {:class       "form-control"
              :type        "password"
              :placeholder "Password"
              :value (:password user)
-             :on-change   #(do (re-frame/dispatch [:set-form-errors nil])
-                               (re-frame/dispatch [:set-user-login (assoc user :password (-> % .-target .-value))]))}]]
+             :on-change   #(do (re-frame/dispatch-sync [:set-form-errors nil])
+                               (re-frame/dispatch-sync [:set-user-login (assoc user :password (-> % .-target .-value))]))}]]
    [:div
     [:p
      [:span "Or go to "]
@@ -156,25 +149,25 @@
              :type        "email"
              :placeholder "Email address"
              :value (:email user)
-             :on-change   #(do (re-frame/dispatch [:set-form-errors nil])
-                               (re-frame/dispatch [:set-user-login (assoc user :email (-> % .-target .-value))]))}]
+             :on-change   #(do (re-frame/dispatch-sync [:set-form-errors nil])
+                               (re-frame/dispatch-sync [:set-user-login (assoc user :email (-> % .-target .-value))]))}]
     [:input {:class       "form-control"
              :type        "password"
              :placeholder "Password"
              :value (:password user)
-             :on-change   #(do (re-frame/dispatch [:set-user-login (assoc user :password (-> % .-target .-value))])
+             :on-change   #(do (re-frame/dispatch-sync [:set-user-login (assoc user :password (-> % .-target .-value))])
                                (if (= (:confirm-password user) (-> % .-target .-value))
-                                 (re-frame/dispatch [:set-form-errors nil])
-                                 (re-frame/dispatch [:set-form-errors {:error "Passwords missmatch"}]))
+                                 (re-frame/dispatch-sync [:set-form-errors nil])
+                                 (re-frame/dispatch-sync [:set-form-errors {:error "Passwords missmatch"}]))
                                )}]
     [:input {:class       "form-control"
              :type        "password"
              :placeholder "Confirm password"
              :value (:confirm-password user)
-             :on-change   #(do (re-frame/dispatch [:set-user-login (assoc user :confirm-password (-> % .-target .-value))])
+             :on-change   #(do (re-frame/dispatch-sync [:set-user-login (assoc user :confirm-password (-> % .-target .-value))])
                                (if (= (:password user) (-> % .-target .-value))
-                                 (re-frame/dispatch [:set-form-errors nil])
-                                 (re-frame/dispatch [:set-form-errors {:error "Passwords missmatch"}])))}]]
+                                 (re-frame/dispatch-sync [:set-form-errors nil])
+                                 (re-frame/dispatch-sync [:set-form-errors {:error "Passwords missmatch"}])))}]]
    [:div
     [:p
      [:span "Or go to "]

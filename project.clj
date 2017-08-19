@@ -45,11 +45,8 @@
 
     {:id           "min"
      :source-paths ["src/cljs"]
-     :compiler     {:main            todogo-cljs.core
-                    :output-to       "resources/public/js/compiled/app.js"
-                    :optimizations   :none
-                    :asset-path      "js/compiled/out"
-                    :closure-defines {goog.DEBUG false}
+     :compiler     {:output-to       "resources/public/js/compiled/app.js"
+                    :optimizations   :advanced
                     :pretty-print    false}}
 
     {:id           "test"
