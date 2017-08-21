@@ -18,14 +18,14 @@
         todo-list-title (re-frame/subscribe [:todo-list-title])]
     (fn []
       [:div {:class "base-container"}
-       (c/nav-bar @main-menu-visible)
+       [c/nav-bar @main-menu-visible]
        [:div {:class "container"}
-        [:div {:class "col-12 "}
-         (c/bread-crumbs
-           [[:span [:span {:class "fa fa-lg fa-home"}]]])]
+        [:div {:class "col-12"}
+         [c/bread-crumbs
+           [[:span [:span {:class "fa fa-lg fa-home"}]]]]]
         [:div {:class "col-lg-4 col-md-4"}
-         (c/create-todo-list-form @todo-list-title)
-         (c/todo-lists @lists)]]
+         [c/create-todo-list-form @todo-list-title]
+         [c/todo-lists @lists]]]
        c/footer])))
 
 (defn todo-list-panel []
@@ -37,18 +37,18 @@
         todo-list-title (re-frame/subscribe [:todo-list-title])]
     (fn []
       [:div {:class "base-container"}
-       (c/nav-bar @main-menu-visible)
+       [c/nav-bar @main-menu-visible]
        [:div {:class "container"}
-        [:div {:class "col-12 "}
-         (c/bread-crumbs
+        [:div {:class "col-12"}
+         [c/bread-crumbs
            [[:a {:href "#/"} [:span {:class "fa fa-lg fa-home"}]]
-            [:span (:title @todo-list)]])]
+            [:span (:title @todo-list)]]]]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
-         (c/create-todo-list-form @todo-list-title)
-         (c/todo-lists @lists)]
+         [c/create-todo-list-form @todo-list-title]
+         [c/todo-lists @lists]]
         [:div {:class "col-lg-4 col-md-4"}
-         (c/create-todo-form @todo-list @todo-text)
-         (c/todos @todos)]
+         [c/create-todo-form @todo-list @todo-text]
+         [c/todos @todos]]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}]]
        c/footer])))
 
@@ -63,28 +63,28 @@
         todo-list-title (re-frame/subscribe [:todo-list-title])]
     (fn []
       [:div {:class "base-container"}
-       (c/nav-bar @main-menu-visible)
+       [c/nav-bar @main-menu-visible]
        [:div {:class "container"}
-        [:div {:class "col-12 "}
-         (c/bread-crumbs
+        [:div {:class "col-12"}
+         [c/bread-crumbs
            [[:a {:href "#/"} [:span {:class "fa fa-lg fa-home"}]]
             [:a {:href (str "#/lists/" (:id @todo-list))} (:title @todo-list)]
-            [:span (:title @todo)]])]
+            [:span (:title @todo)]]]]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
-         (c/create-todo-list-form @todo-list-title)
-         (c/todo-lists @lists)]
+         [c/create-todo-list-form @todo-list-title]
+         [c/todo-lists @lists]]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
-         (c/create-todo-form @todo-list @todo-text)
-         (c/todos @todos)]
+         [c/create-todo-form @todo-list @todo-text]
+         [c/todos @todos]]
         [:div {:class "col-lg-4 col-md-4"}
-         (c/edit-todo-form @todo)]]
+         [c/edit-todo-form @todo]]]
        c/footer])))
 
 
 (defn about-panel []
   (let [main-menu-visible (re-frame/subscribe [:main-menu-visible])]
     [:div {:class "base-container"}
-     (c/nav-bar @main-menu-visible)
+     [c/nav-bar @main-menu-visible]
      [:div {:class "container"}
       [:h2 "Sign in page"]
       [:div [:a {:href "#/"} "go to the home page"]]]
@@ -95,9 +95,9 @@
         user-login (re-frame/subscribe [:user-login])
         form-errors (re-frame/subscribe [:form-errors])]
     [:div {:class "base-container"}
-     (c/nav-bar @main-menu-visible)
+     [c/nav-bar @main-menu-visible]
      [:div {:class "container"}
-      (c/sign-in-form @user-login @form-errors)]
+      [c/sign-in-form @user-login @form-errors]]
      c/footer]))
 
 (defn sign-up-panel []
@@ -105,9 +105,9 @@
         user-login (re-frame/subscribe [:user-login])
         form-errors (re-frame/subscribe [:form-errors])]
     [:div {:class "base-container"}
-     (c/nav-bar @main-menu-visible)
+     [c/nav-bar @main-menu-visible]
      [:div {:class "container"}
-      (c/sign-up-form @user-login @form-errors)]
+      [c/sign-up-form @user-login @form-errors]]
      c/footer]))
 
 
