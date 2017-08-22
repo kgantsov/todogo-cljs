@@ -8,18 +8,19 @@
                                                ls-set]]))
 
 (def default-db
-  {:name            "re-frame"
+  {:name              "re-frame"
    :main-menu-visible false
-   :todo-lists      []
-   :todos           []
-   :todo-list-id    nil
-   :todo-list       nil
-   :todo-title      ""
-   :todo-list-title ""
-   :todo-id         nil
-   :todo            nil
-   :user-login      nil
-   :form-errors     nil})
+   :todo-lists        []
+   :todos             []
+   :todo-list-id      nil
+   :todo-list         nil
+   :todo-title        ""
+   :todo-list-title   ""
+   :todo-id           nil
+   :todo              nil
+   :user-login        nil
+   :form-errors       nil
+   :display-completed false})
 
 
 (defn api-call [method url handler & options]

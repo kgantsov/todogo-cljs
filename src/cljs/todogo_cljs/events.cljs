@@ -66,3 +66,8 @@
   :set-todo-list-title
   (fn [db [_ todo-list-title]]
    (assoc db :todo-list-title todo-list-title)))
+
+(re-frame/reg-event-db
+  :set-display-completed
+  (fn [db [_ display-completed]]
+   (assoc db :display-completed display-completed)))

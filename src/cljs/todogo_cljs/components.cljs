@@ -196,15 +196,29 @@
                                    (delete-todo-list (:id list))))}]])])
 
 
-(defn todos [todos]
+(defn todos [todos display-completed]
   [:ul {:class "list-group"}
    (for [todo todos]
      ^{:key (:id todo)}
-     [:li {:class "list-group-item"}
-      [:input {:type "checkbox"
-               :checked (:completed todo)
-               :on-change (fn []   (toggle-todo todo))}]
-      [:a {:href (str "#/lists/" (:todo_list_id todo) "/todos/" (:id todo))} (:title todo)]
-      [:span {:class "button fa fa-lg fa-trash pull-right"
-              :on-click (fn [] (do (nav! (str "/lists/" (:todo_list_id todo)))
-                                   (delete-todo (:todo_list_id todo) (:id todo))))}]])])
+     (if (or (= (:completed todo) false) (= display-completed true))
+       [:li {:class "list-group-item"}
+        [:input {:type "checkbox"
+                 :checked (:completed todo)
+                 :on-change (fn []   (toggle-todo todo))}]
+        [:a {:href (str "#/lists/" (:todo_list_id todo) "/todos/" (:id todo))} (:title todo)]
+        [:span {:class "button fa fa-lg fa-trash pull-right"
+                :on-click (fn [] (do (nav! (str "/lists/" (:todo_list_id todo)))
+                                     (delete-todo (:todo_list_id todo) (:id todo))))}]]))])
+
+
+(defn toggle-completed-tasks [display-completed]
+  [:div {:class "form-group"}
+   (if (= display-completed true)
+     [:input {:on-click #(re-frame/dispatch [:set-display-completed false])
+              :type "button"
+              :class "btn btn-primary center-block"
+              :value "Hide completed"}]
+     [:input {:on-click #(re-frame/dispatch [:set-display-completed true])
+              :type "button"
+              :class "btn btn-primary center-block"
+              :value "Show completed"}])])

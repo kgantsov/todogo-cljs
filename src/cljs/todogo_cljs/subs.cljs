@@ -67,3 +67,8 @@
   :main-menu-visible
   (fn [db _]
    (:main-menu-visible db)))
+
+(re-frame/reg-sub
+  :display-completed
+  (fn [db _]
+   (:display-completed db)))

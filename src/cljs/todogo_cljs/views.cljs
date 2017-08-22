@@ -34,7 +34,8 @@
         todo-list (re-frame/subscribe [:todo-list])
         todos (re-frame/subscribe [:todos])
         todo-text (re-frame/subscribe [:todo-title])
-        todo-list-title (re-frame/subscribe [:todo-list-title])]
+        todo-list-title (re-frame/subscribe [:todo-list-title])
+        display-completed (re-frame/subscribe [:display-completed])]
     (fn []
       [:div {:class "base-container"}
        [c/nav-bar @main-menu-visible]
@@ -48,7 +49,8 @@
          [c/todo-lists @lists]]
         [:div {:class "col-lg-4 col-md-4"}
          [c/create-todo-form @todo-list @todo-text]
-         [c/todos @todos]]
+         [c/todos @todos @display-completed]
+         [c/toggle-completed-tasks @display-completed]]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}]]
        c/footer])))
 
@@ -60,7 +62,8 @@
         lists (re-frame/subscribe [:todo-lists])
         todos (re-frame/subscribe [:todos])
         todo-text (re-frame/subscribe [:todo-title])
-        todo-list-title (re-frame/subscribe [:todo-list-title])]
+        todo-list-title (re-frame/subscribe [:todo-list-title])
+        display-completed (re-frame/subscribe [:display-completed])]
     (fn []
       [:div {:class "base-container"}
        [c/nav-bar @main-menu-visible]
@@ -75,7 +78,8 @@
          [c/todo-lists @lists]]
         [:div {:class "col-lg-4 col-md-4 hidden-sm hidden-xs"}
          [c/create-todo-form @todo-list @todo-text]
-         [c/todos @todos]]
+         [c/todos @todos @display-completed]
+         [c/toggle-completed-tasks @display-completed]]
         [:div {:class "col-lg-4 col-md-4"}
          [c/edit-todo-form @todo]]]
        c/footer])))
