@@ -1,6 +1,7 @@
 (ns todogo-cljs.components
   (:require [re-frame.core :as re-frame]
             [reagent.core :refer [dom-node]]
+            [re-com.core       :refer [single-dropdown]]
             [todogo-cljs.db :refer [create-todo-list
                                     create-todo
                                     toggle-todo
@@ -74,6 +75,14 @@
              :placeholder (str "Add a todo in a list '" (:title todo-list) "'")
              :on-change   #(re-frame/dispatch-sync [:set-todo-title (-> % .-target .-value)])}]]])
 
+(def priorities [{:id 1 :label "IRRELEVANT"}
+                 {:id 2 :label "EXTRA_LOW"}
+                 {:id 3 :label "LOW"}
+                 {:id 4 :label "NORMAL"}
+                 {:id 5 :label "HIGH"}
+                 {:id 6 :label "URGENT"}
+                 {:id 7 :label "SUPER_URGENT"}
+                 {:id 8 :label "IMMEDIATE"}])
 
 (defn edit-todo-form [todo]
    [:form {:on-submit (fn [e] (do (update-todo todo)
@@ -90,6 +99,16 @@
                  :value       (:note todo)
                  :on-blur     (fn [] (update-todo todo))
                  :on-change   #(re-frame/dispatch-sync [:set-todo (assoc todo :note (-> % .-target .-value))])}]]
+    [:div {:class "form-group"}
+     [single-dropdown
+      :choices     priorities
+      :model       (:priority todo)
+      :title?      true
+      :placeholder "Choose a priority"
+      :width       "100%"
+      :max-height  "400px"
+      :filter-box? false
+      :on-change   #(re-frame/dispatch-sync [:set-todo (assoc todo :priority %)])]]
     [:div {:class "form-group"}
      [:input {:class "btn btn-success"
               :type :submit
@@ -199,8 +218,8 @@
 (defn todos [todos display-completed]
   [:ul {:class "list-group"}
    (for [todo todos]
-     ^{:key (:id todo)}
      (if (or (= (:completed todo) false) (= display-completed true))
+       ^{:key (:id todo)}
        [:li {:class "list-group-item"}
         [:input {:type "checkbox"
                  :checked (:completed todo)
