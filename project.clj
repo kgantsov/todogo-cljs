@@ -6,6 +6,7 @@
                  [cljs-ajax "0.6.0"]
                  [secretary "1.2.3"]
                  [re-com "0.9.0"]
+                 [org.clojure/core.async "0.3.443"]
                  [com.andrewmcveigh/cljs-time "0.5.0"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
