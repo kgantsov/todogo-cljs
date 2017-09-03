@@ -75,14 +75,14 @@
              :placeholder (str "Add a todo in a list '" (:title todo-list) "'")
              :on-change   #(re-frame/dispatch-sync [:set-todo-title (-> % .-target .-value)])}]]])
 
-(def priorities [{:id 1 :label "IRRELEVANT"}
-                 {:id 2 :label "EXTRA_LOW"}
-                 {:id 3 :label "LOW"}
-                 {:id 4 :label "NORMAL"}
-                 {:id 5 :label "HIGH"}
-                 {:id 6 :label "URGENT"}
-                 {:id 7 :label "SUPER_URGENT"}
-                 {:id 8 :label "IMMEDIATE"}])
+(def priorities [{:id 1 :label "Irrelevant"}
+                 {:id 2 :label "Extra low"}
+                 {:id 3 :label "Low"}
+                 {:id 4 :label "Normal"}
+                 {:id 5 :label "High"}
+                 {:id 6 :label "Urgent"}
+                 {:id 7 :label "Super urgent"}
+                 {:id 8 :label "Immediate"}])
 
 (defn edit-todo-form [todo]
    [:form {:on-submit (fn [e] (do (update-todo todo)
