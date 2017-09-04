@@ -1,6 +1,7 @@
 (ns todogo-cljs.db
   (:require [clojure.walk :refer (keywordize-keys)]
             [re-frame.core :as re-frame]
+            [cljs-time.format :as f]
             [ajax.core :refer [GET POST PUT DELETE]]
             [re-frame.core :refer [dispatch]]
             [todogo-cljs.navigation :refer [nav!]]
@@ -21,6 +22,10 @@
    :user-login        nil
    :form-errors       nil
    :display-completed false})
+
+
+(def custom-formatter-from (f/formatter "yyyy-MM-dd'T'HH:mm:ss.......Z"))
+(def custom-formatter-to (f/formatter "yyyy-MM-dd'T'HH:mm:ss.SSSZ"))
 
 
 (defn api-call [method url handler & options]
@@ -57,11 +62,20 @@
     (str "/api/v1/list/" id "/todo/")
     (fn [data] (dispatch [:set-todos (keywordize-keys data)]))))
 
+
+(defn prepare-todo [data]
+  (let [todo (keywordize-keys data)]
+    (print (= (:dead_line_at todo) "0001-01-01T00:00:00Z") (:dead_line_at todo) "0001-01-01T00:00:00Z" todo)
+    (if (= (:dead_line_at todo) "0001-01-01T00:00:00Z")
+      (assoc todo :dead_line_at nil)
+      (assoc todo :dead_line_at (f/parse custom-formatter-from (:dead_line_at todo))))))
+
+
 (defn get-todo [list-id id]
   (api-call
     GET
     (str "/api/v1/list/" list-id "/todo/" id "/")
-    (fn [data] (dispatch [:set-todo (keywordize-keys data)]))))
+    (fn [data] (dispatch [:set-todo (prepare-todo data)]))))
 
 (defn create-todo-list [data]
   (api-call
@@ -91,7 +105,7 @@
     PUT
     (str "/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
     (fn [] (get-todos (:todo_list_id todo)))
-    :data todo))
+    :data (assoc todo :dead_line_at (f/unparse custom-formatter-to (:dead_line_at todo)))))
 
 (defn sign-in [data]
   (api-call

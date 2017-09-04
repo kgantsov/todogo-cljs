@@ -1,7 +1,8 @@
 (ns todogo-cljs.components
   (:require [re-frame.core :as re-frame]
             [reagent.core :refer [dom-node]]
-            [re-com.core       :refer [single-dropdown]]
+            [re-com.core       :refer [single-dropdown datepicker-dropdown]]
+            [re-com.dropdown :refer [filter-choices-by-keyword single-dropdown-args-desc]]
             [todogo-cljs.db :refer [create-todo-list
                                     create-todo
                                     toggle-todo
@@ -109,6 +110,15 @@
       :max-height  "400px"
       :filter-box? false
       :on-change   #(re-frame/dispatch-sync [:set-todo (assoc todo :priority %)])]]
+
+    [:div {:class "form-group"}
+     [datepicker-dropdown
+      :model (:dead_line_at todo)
+      :show-today? true
+      :format "yyyy-MM-dd"
+      :start-of-week 0
+      :on-change #(re-frame/dispatch-sync [:set-todo (assoc todo :dead_line_at %)])]]
+
     [:div {:class "form-group"}
      [:input {:class "btn btn-success"
               :type :submit

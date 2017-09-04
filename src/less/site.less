@@ -24,6 +24,7 @@ body {
   /* Set the fixed height of the footer here */
   height: 65px;
   background-color: #f5f5f5;
+  z-index: 100;
 }
 
 
@@ -149,7 +150,7 @@ div {
 
 
 .list-group-item:hover {
-    background-color: #4E5D7A;
+    background-color: #64778a;
 }
 
 ::-webkit-scrollbar {
@@ -173,4 +174,102 @@ div {
 
 ::-webkit-scrollbar-thumb:horizontal:active, ::-webkit-scrollbar-thumb:vertical:active {
   background:rgba(0,0,0,0);
+}
+
+.datepicker {
+    background: inherit;
+}
+
+.datepicker th.prev {
+    background: inherit;
+    color: inherit;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    border-right-style: none;
+}
+
+.datepicker th.month {
+    background: inherit;
+    color: inherit;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    border-right-style: none;
+    border-left-style: none;
+}
+
+.datepicker th.next {
+    background: inherit;
+    color: inherit;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    border-left-style: none;
+}
+
+.zmdi-chevron-left {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    font-size: 1.33333333em !important;
+    line-height: 0.75em;
+    vertical-align: -15%;
+}
+
+.zmdi-chevron-left:before {
+    content: "\f053";
+}
+
+.zmdi-chevron-right {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    font-size: 1.33333333em !important;
+    line-height: 0.75em;
+    vertical-align: -15%;
+}
+
+.zmdi-chevron-right:before {
+    content: "\f054";
+}
+
+.datepicker td.available:hover, .datepicker th.available:hover {
+    background-color: #64778a;
+}
+
+.input-group-addon:last-child {
+    height: 39px;
+    padding: 11px 0px 0px 1px !important;
+}
+
+
+.zmdi-apps {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    font-size: 1.33333333em !important;
+    line-height: 0.75em;
+    vertical-align: -15%;
+}
+
+
+.zmdi-apps:before {
+    content: "\f073";
+}
+
+.datepicker td.today, .datepicker td.today:hover {
+    background-color: #df691a;
+    border-radius: 18px;
+}
+
+.popover {
+    left: -79px !important;
+    top: 5px !important;
 }
