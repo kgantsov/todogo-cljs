@@ -105,7 +105,9 @@
     PUT
     (str "/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
     (fn [] (get-todos (:todo_list_id todo)))
-    :data (assoc todo :dead_line_at (f/unparse custom-formatter-to (:dead_line_at todo)))))
+    :data (assoc todo :dead_line_at (if (= (:dead_line_at todo) nil)
+                                      nil
+                                      (f/unparse custom-formatter-to (:dead_line_at todo))))))
 
 (defn sign-in [data]
   (api-call

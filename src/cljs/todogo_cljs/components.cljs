@@ -98,7 +98,6 @@
      [:textarea {:class       "form-control"
                  :placeholder (str "Note...")
                  :value       (:note todo)
-                 :on-blur     (fn [] (update-todo todo))
                  :on-change   #(re-frame/dispatch-sync [:set-todo (assoc todo :note (-> % .-target .-value))])}]]
     [:div {:class "form-group"}
      [single-dropdown
