@@ -96,9 +96,7 @@
     PUT
     (str "/api/v1/list/" (:todo_list_id todo) "/todo/" (:id todo) "/")
     (fn [] (get-todos (:todo_list_id todo)))
-    :data {:title (:title todo)
-           :completed (if (= (:completed todo) true) false true)
-           :note (:note todo)}))
+    :data (assoc todo :completed (if (= (:completed todo) true) false true))))
 
 (defn update-todo [todo]
   (api-call
