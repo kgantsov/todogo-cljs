@@ -1,6 +1,6 @@
 (ns todogo-cljs.components
   (:require [re-frame.core :as re-frame]
-            [reagent.core :refer [dom-node]]
+            [reagent.core :refer [dom-node atom]]
             [re-com.core       :refer [single-dropdown datepicker-dropdown]]
             [re-com.dropdown :refer [filter-choices-by-keyword single-dropdown-args-desc]]
             [todogo-cljs.db :refer [create-todo-list
@@ -224,16 +224,24 @@
                                    (delete-todo-list (:id list))))}]])])
 
 
+(defn check-box [& {:keys [handler checked] :or {checked false}}]
+  (let [state (atom checked)]
+    [:span {:class (if @state "fa fa-check-square-o" "fa fa-square-o")
+            :on-click (fn [] (do (handler)))}]))
+
+
 (defn todos [todos display-completed]
   [:ul {:class "list-group"}
    (for [todo todos]
      (if (or (= (:completed todo) false) (= display-completed true))
        ^{:key (:id todo)}
        [:li {:class "list-group-item"}
-        [:input {:type "checkbox"
-                 :checked (:completed todo)
-                 :on-change (fn []   (toggle-todo todo))}]
-        [:a {:href (str "#/lists/" (:todo_list_id todo) "/todos/" (:id todo))} (:title todo)]
+        [:div {:class (str "priority-list-item priority-" (:priority todo))}
+         [check-box :handler (fn []   (toggle-todo todo))
+                    :checked (:completed todo)]]
+        [:a {:href (str "#/lists/" (:todo_list_id todo) "/todos/" (:id todo))
+             :class "todo-item"}
+         (:title todo)]
         [:span {:class "button fa fa-lg fa-trash pull-right"
                 :on-click (fn [] (do (nav! (str "/lists/" (:todo_list_id todo)))
                                      (delete-todo (:todo_list_id todo) (:id todo))))}]]))])
