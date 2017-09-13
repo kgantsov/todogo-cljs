@@ -239,10 +239,11 @@
         [:div {:class (str "priority-list-item priority-" (:priority todo))}
          [check-box :handler (fn []   (toggle-todo todo))
                     :checked (:completed todo)]]
-        [:a {:href (str "#/lists/" (:todo_list_id todo) "/todos/" (:id todo))
-             :class "todo-item"}
-         (:title todo)]
-        [:span {:class "button fa fa-lg fa-trash pull-right"
+        [:div {:class "todo-item-container"}
+         [:a {:href (str "#/lists/" (:todo_list_id todo) "/todos/" (:id todo))
+              :class "todo-item"}
+          (:title todo)]]
+        [:div {:class "todo-item-remove button fa fa-lg fa-trash"
                 :on-click (fn [] (do (nav! (str "/lists/" (:todo_list_id todo)))
                                      (delete-todo (:todo_list_id todo) (:id todo))))}]]))])
 
