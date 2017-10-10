@@ -15,3 +15,6 @@ pom.xml.asc
 .idea/
 
 docker/api/todogo
+resources/public/js/compiled
+.DS_Store
+figwheel_server.log
