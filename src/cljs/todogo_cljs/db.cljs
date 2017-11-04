@@ -65,7 +65,6 @@
 
 (defn prepare-todo [data]
   (let [todo (keywordize-keys data)]
-    (print (= (:dead_line_at todo) "0001-01-01T00:00:00Z") (:dead_line_at todo) "0001-01-01T00:00:00Z" todo)
     (if (= (:dead_line_at todo) "0001-01-01T00:00:00Z")
       (assoc todo :dead_line_at nil)
       (assoc todo :dead_line_at (f/parse custom-formatter-from (:dead_line_at todo))))))
@@ -115,7 +114,8 @@
                         (re-frame/dispatch [:set-user-login nil])
                         (nav! (str "/"))))
     :data data
-    :error-handler (fn [] (re-frame/dispatch [:set-form-errors {:error "Login or password is incorrect"}]))))
+    :error-handler (fn [] (re-frame/dispatch 
+                            [:set-form-errors {:error "Login or password is incorrect"}]))))
 
 (defn sign-up [data]
   (api-call
