@@ -17,14 +17,17 @@
 
 
 (defn nav-bar [main-menu-visible]
-  (let [menu-class (if (= main-menu-visible true) "collapse navbar-collapse in" "collapse navbar-collapse")]
+  (let [menu-class (if (= main-menu-visible true)
+                     "collapse navbar-collapse in"
+                     "collapse navbar-collapse")]
     [:nav {:class "navbar navbar-inverse navbar-fixed-top"}
      [:div {:class "container"}
       [:div {:class "navbar-header"}
        [:a {:href "#/" :class "navbar-brand"} "TODOGO"]
        [:button {:class "navbar-toggle"
                  :type "button"
-                 :on-click #(re-frame/dispatch [:set-main-menu-visible (if (= main-menu-visible true) false true)])}
+                 :on-click #(re-frame/dispatch
+                             [:set-main-menu-visible (if (= main-menu-visible true) false true)])}
         [:span {:class "icon-bar"}]
         [:span {:class "icon-bar"}]
         [:span {:class "icon-bar"}]]]
@@ -63,7 +66,8 @@
              :type        "text"
              :value       title
              :placeholder (str "Create a todo list...")
-             :on-change   #(re-frame/dispatch-sync [:set-todo-list-title (-> % .-target .-value)])}]]])
+             :on-change   #(re-frame/dispatch-sync
+                            [:set-todo-list-title (-> % .-target .-value)])}]]])
 
 
 (defn create-todo-form [todo-list title]
@@ -93,12 +97,14 @@
               :type        "text"
               :value       (:title todo)
               :placeholder (str "New todo title")
-              :on-change   #(re-frame/dispatch-sync [:set-todo (assoc todo :title (-> % .-target .-value))])}]]
+              :on-change   #(re-frame/dispatch-sync
+                             [:set-todo (assoc todo :title (-> % .-target .-value))])}]]
     [:div {:class "form-group"}
      [:textarea {:class       "form-control"
                  :placeholder (str "Note...")
                  :value       (:note todo)
-                 :on-change   #(re-frame/dispatch-sync [:set-todo (assoc todo :note (-> % .-target .-value))])}]]
+                 :on-change   #(re-frame/dispatch-sync
+                                [:set-todo (assoc todo :note (-> % .-target .-value))])}]]
     [:div {:class "form-group"}
      [single-dropdown
       :choices     priorities
@@ -144,13 +150,15 @@
              :placeholder "Email address"
              :value (:email user)
              :on-change   #(do (re-frame/dispatch-sync [:set-form-errors nil])
-                               (re-frame/dispatch-sync [:set-user-login (assoc user :email (-> % .-target .-value))]))}]
+                               (re-frame/dispatch-sync
+                                 [:set-user-login (assoc user :email (-> % .-target .-value))]))}]
     [:input {:class       "form-control"
              :type        "password"
              :placeholder "Password"
              :value (:password user)
              :on-change   #(do (re-frame/dispatch-sync [:set-form-errors nil])
-                               (re-frame/dispatch-sync [:set-user-login (assoc user :password (-> % .-target .-value))]))}]]
+                               (re-frame/dispatch-sync
+                                 [:set-user-login (assoc user :password (-> % .-target .-value))]))}]]
    [:div
     [:p
      [:span "Or go to "]
@@ -192,7 +200,8 @@
              :type        "password"
              :placeholder "Confirm password"
              :value (:confirm-password user)
-             :on-change   #(do (re-frame/dispatch-sync [:set-user-login (assoc user :confirm-password (-> % .-target .-value))])
+             :on-change   #(do (re-frame/dispatch-sync
+                                 [:set-user-login (assoc user :confirm-password (-> % .-target .-value))])
                                (if (= (:password user) (-> % .-target .-value))
                                  (re-frame/dispatch-sync [:set-form-errors nil])
                                  (re-frame/dispatch-sync [:set-form-errors {:error "Passwords missmatch"}])))}]]
