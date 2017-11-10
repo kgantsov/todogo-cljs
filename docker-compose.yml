@@ -4,58 +4,68 @@ services:
   api:
     container_name: api
     restart: always
-    build: ./docker/api
+#    build: ./docker/api
+    image: kgantsov/todogo_api:latest
     env_file: .environment
-    volumes:
-      - ./docker/api/:/app/
+#    volumes:
+#      - ./docker/api/:/app/
     expose:
       - "8080/tcp"
     ports:
       - "8080:8080"
     links:
-      - postgres:postgres
+      - cockroach:cockroach
     depends_on:
-      - postgres
+      - cockroach
     command: /app/todogo
 
-  postgres:
-    container_name: postgres
+#  postgres:
+#    container_name: postgres
+#    restart: always
+#    build: ./docker/postgres
+#    volumes:
+#      - postgresdatavolume:/var/lib/postgresql
+#    ports:
+#      - "5432:5432"
+#    expose:
+#      - "5432/tcp"
+
+  cockroach:
+    container_name: cockroach
     restart: always
-    build: ./docker/postgres
+    image: cockroachdb/cockroach:latest
     volumes:
-      - postgresdatavolume:/var/lib/postgresql
+      - cockroachdatavolume:/cockroach/cockroach-data
     ports:
-      - "5432:5432"
+      - "26257:26257"
     expose:
-      - "5432/tcp"
+      - "26257/tcp"
+    command: start --insecure
+
+  psql:
+    container_name: psql
+
+    image: jbergknoff/postgresql-client
 
   web:
     container_name: web
     restart: always
-    build: .
+    image: kgantsov/todogo_cljs:latest
     env_file: .environment
     volumes:
-      - .:/todogo/
+      - ./resources/public/:/public/
     expose:
-      - "3449/tcp"
-    ports:
-      - "3449:3449"
-    links:
-      - api:api
-    depends_on:
-      - api
-    command: lein figwheel dev
-
-  nginx:
-    restart: always
-    build: ./docker/nginx
+      - "80/tcp"
     ports:
       - "80:80"
     links:
       - api:api
-      - web:web
+    depends_on:
+      - api
 
 volumes:
   postgresdatavolume:
     driver: local
 
+  cockroachdatavolume:
+      driver: local
