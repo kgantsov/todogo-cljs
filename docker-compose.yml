@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   api:
@@ -17,6 +17,15 @@ services:
       - cockroach:cockroach
     depends_on:
       - cockroach
+    networks:
+      - frontend
+      - backend
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
     command: /app/todogo
 
 #  postgres:
@@ -40,6 +49,8 @@ services:
       - "26257:26257"
     expose:
       - "26257/tcp"
+    networks:
+      - backend
     command: start --insecure
 
   psql:
@@ -62,6 +73,18 @@ services:
       - api:api
     depends_on:
       - api
+    networks:
+      - frontend
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
+
+networks:
+  frontend:
+  backend:
 
 volumes:
   postgresdatavolume:
