@@ -65,7 +65,7 @@
 
 (defn prepare-todo [data]
   (let [todo (keywordize-keys data)]
-    (if (= (:dead_line_at todo) "0001-01-01T00:00:00Z")
+    (if (= (:dead_line_at todo) nil)
       (assoc todo :dead_line_at nil)
       (assoc todo :dead_line_at (f/parse custom-formatter-from (:dead_line_at todo))))))
 
