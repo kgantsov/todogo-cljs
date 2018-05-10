@@ -1,0 +1,11 @@
+FROM zzrot/alpine-caddy
+
+RUN apk add -U bash
+
+RUN mkdir -p /public/
+WORKDIR /public/
+
+ADD ./resources/public/ /public/
+ADD ./Caddyfile /etc/Caddyfile
+
+EXPOSE 80

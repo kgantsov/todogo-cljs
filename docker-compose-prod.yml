@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  api:
-    container_name: api
+  todogo-api:
+    container_name: todogo-api
     restart: always
     image: kgantsov/todogo_api:latest
     env_file: .environment
@@ -41,7 +41,7 @@ services:
   cockroach:
     container_name: cockroach
     restart: always
-    image: cockroachdb/cockroach:v1.1.2
+    image: cockroachdb/cockroach:v1.1.5
     volumes:
       - cockroachdatavolume:/cockroach/cockroach-data
     ports:
@@ -59,12 +59,14 @@ services:
     env_file: .environment
     expose:
       - "80/tcp"
+      - "443/tcp"
     ports:
       - "80:80"
+      - "443:443"
     links:
-      - api:api
+      - todogo-api:todogo-api
     depends_on:
-      - api
+      - todogo-api
     networks:
       - frontend
     deploy:
@@ -77,6 +79,11 @@ services:
   psql:
     container_name: psql
     image: jbergknoff/postgresql-client
+    depends_on:
+      #- postgres
+      - cockroach
+    networks:
+      - backend
 
 networks:
   frontend:

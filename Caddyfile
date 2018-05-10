@@ -1,0 +1,12 @@
+todogo.cloud {
+    proxy /api todogo-api:8080 {
+        #without /api
+        transparent
+    }
+
+    root /public/
+
+    gzip
+
+    tls k.gantsov@gmail.com
+}

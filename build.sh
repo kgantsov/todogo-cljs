@@ -9,7 +9,7 @@ rm -Rf resources/public/js/compiled
 lein cljsbuild once min
 lein less once
 
-docker build -f Dockerfile-prod -t $USER/$NAME:$TAG --no-cache .
+docker build -f Dockerfile-caddy -t $USER/$NAME:$TAG --no-cache .
 
 
 docker tag $USER/$NAME:$TAG $USER/$NAME:$TAG
