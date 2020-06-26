@@ -2,4 +2,10 @@ DB_HOST=postgres
 DB_NAME=todogo
 DB_USERNAME=todogo
 DB_PASSWORD=todogowassword
-DB_URI=postgresql://todogo:todogowassword@postgres:5432/todogo
+
+
+DB_URI=postgresql://root@cockroach:26257/todogo?sslmode=disable
+
+
+NEWRELIC_APP_NAME=TODOGO.local
+NEWRELIC_APP_KEY=d45ff0cfd16f774bfa1f8eaac5be98235732b6a1

@@ -1,5 +1,6 @@
 (ns todogo-cljs.core
   (:require [reagent.core :as reagent]
+            [reagent.dom :as rdom]
             [re-frame.core :as re-frame]
             [todogo-cljs.events]
             [todogo-cljs.subs]
@@ -15,7 +16,7 @@
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
-  (reagent/render [views/main-panel]
+  (rdom/render [views/main-panel]
                   (.getElementById js/document "app")))
 
 (defn ^:export init []

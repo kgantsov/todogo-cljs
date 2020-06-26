@@ -24,6 +24,7 @@
     <orderEntry type="library" name="Leiningen: cljsjs/react-dom:15.2.1-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/react:15.2.1-0" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.4" level="project" />
+    <orderEntry type="library" name="Leiningen: com.andrewmcveigh/cljs-time:0.5.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.cemerick/clojurescript.test:0.2.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-clj:0.8.285" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-cljs:0.8.239" level="project" />
@@ -49,15 +50,23 @@
     <orderEntry type="library" name="Leiningen: org.apache.httpcomponents/httpcore:4.4.4" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.8.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/clojurescript:1.9.229" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/core.async:0.3.443" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/core.cache:0.6.5" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/core.memoize:0.5.9" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.json:0.2.6" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/data.priority-map:0.0.7" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/google-closure-library-third-party:0.0-20160609-f42b4a24" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/google-closure-library:0.0-20160609-f42b4a24" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/tools.analyzer.jvm:0.7.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/tools.analyzer:0.6.9" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.logging:0.3.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.nrepl:0.2.12" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.reader:1.0.0-beta3" level="project" />
     <orderEntry type="library" name="Leiningen: org.javassist/javassist:3.18.1-GA" level="project" />
     <orderEntry type="library" name="Leiningen: org.mozilla/rhino:1.7R5" level="project" />
     <orderEntry type="library" name="Leiningen: org.msgpack/msgpack:0.6.10" level="project" />
+    <orderEntry type="library" name="Leiningen: org.ow2.asm/asm-all:4.2" level="project" />
+    <orderEntry type="library" name="Leiningen: re-com:0.9.0" level="project" />
     <orderEntry type="library" name="Leiningen: re-frame:0.9.4" level="project" />
     <orderEntry type="library" name="Leiningen: reagent:0.6.0" level="project" />
     <orderEntry type="library" name="Leiningen: secretary:1.2.3" level="project" />

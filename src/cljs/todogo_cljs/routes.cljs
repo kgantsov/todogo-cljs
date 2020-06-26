@@ -1,7 +1,7 @@
 (ns todogo-cljs.routes
-  (:require-macros [secretary.core :refer [defroute]])
+  ; (:require-macros [secretary.core :refer [defroute]])
   (:import goog.history.Html5History)
-  (:require [secretary.core :as secretary]
+  (:require [secretary.core :as secretary :refer-macros [defroute]]
             [re-frame.core :as re-frame]
             [todogo-cljs.db :refer [get-todo-lists
                                     get-todo-list
@@ -18,15 +18,16 @@
             (do (get-todo-lists)
                 (re-frame/dispatch [:set-active-panel :todo-lists-panel])))
 
-  (defroute "/lists/:id" [id]
+  (defroute "/lists/:id" {id :id}
             (do (get-todo-lists)
                 (get-todo-list id)
                 (get-todos id)
                 (re-frame/dispatch [:set-active-panel :todo-list-panel])
                 (re-frame/dispatch [:set-todo-list-id id])))
 
-  (defroute "/lists/:list-id/todos/:id" [list-id id]
-            (do (get-todo-lists)
+  (defroute "/lists/:list-id/todos/:id" {list-id :list-id, id :id}
+            (do (js/console.log (str "LIST ---->>>: " list-id " " id))
+                (get-todo-lists)
                 (get-todos list-id)
                 (get-todo-list list-id)
                 (get-todo list-id id)

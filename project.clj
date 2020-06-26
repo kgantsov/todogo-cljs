@@ -1,17 +1,18 @@
 (defproject todogo-cljs "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.229"]
-                 [reagent "0.6.0"]
-                 [re-frame "0.9.4"]
+  :dependencies [[org.clojure/clojure "1.10.0"]
+                 [org.clojure/clojurescript "1.10.773"]
+                 [reagent "0.10.0"]
+                 [re-frame "0.12.0"]
                  [cljs-ajax "0.6.0"]
-                 [secretary "1.2.3"]
-                 [re-com "0.9.0"]
-                 [org.clojure/core.async "0.3.443"]
+                 [clj-commons/secretary "1.2.4"]
+                 [re-com "2.8.0"]
+                 [org.clojure/core.async "0.4.500"]
                  [com.andrewmcveigh/cljs-time "0.5.0"]]
 
-  :plugins [[lein-cljsbuild "1.1.4"]]
+  :plugins [[lein-figwheel "0.5.20"]
+            [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
 
-  :min-lein-version "2.5.3"
+  :min-lein-version "2.9.1"
 
   :source-paths ["src/clj"]
 
@@ -27,7 +28,7 @@
   {:dev
    {:dependencies [[binaryage/devtools "0.8.2"]]
 
-    :plugins      [[lein-figwheel "0.5.9"]
+    :plugins      [[lein-figwheel "0.5.20"]
                    [lein-doo "0.1.7"]
                    [lein-less "1.7.5"]]
     }}
