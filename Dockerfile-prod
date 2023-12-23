@@ -8,7 +8,7 @@ WORKDIR /todogo/
 RUN lein cljsbuild once min
 # RUN lein less once
 
-FROM node:13.12.0-alpine as jsbuild
+FROM node:13.12.0-alpine as jsbuilder
 
 ADD . /todogo/
 WORKDIR /todogo/
