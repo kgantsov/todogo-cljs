@@ -11,6 +11,6 @@ steps:
       from_secret: docker_password
     repo: docker.coroutine.dev/todogo_cljs
     context: .
-    dockerfile: ./Dockerfile
+    dockerfile: ./Dockerfile-prod
     registry: docker.coroutine.dev
     auto_tag: true
