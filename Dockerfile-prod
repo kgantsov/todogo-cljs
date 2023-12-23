@@ -6,7 +6,7 @@ WORKDIR /todogo/
 
 # RUN rm -Rf resources/public/js/compiled
 RUN lein cljsbuild once min
-RUN lein less once
+# RUN lein less once
 
 
 FROM nginx:stable-alpine
