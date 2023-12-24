@@ -15,6 +15,7 @@ WORKDIR /todogo/
 
 RUN npm install less -g
 RUN lessc /todogo/src/less/site.less /todogo/src/less/site.css
+RUN lessc /todogo/src/less/re-com.css /todogo/src/less/re-com.css
 
 FROM nginx:stable-alpine
 COPY ./nginx-site.conf /etc/nginx/conf.d/default.conf
