@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-- name: build api
+- name: build web
   image: plugins/docker
   settings:
     username:
@@ -12,5 +12,17 @@ steps:
     repo: docker.coroutine.dev/todogo_cljs
     context: .
     dockerfile: ./Dockerfile-prod
+    registry: docker.coroutine.dev
+    auto_tag: true
+- name: build web with no proxy
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: docker.coroutine.dev/todogo_web
+    context: .
+    dockerfile: ./Dockerfile-prod-no-proxy
     registry: docker.coroutine.dev
     auto_tag: true
